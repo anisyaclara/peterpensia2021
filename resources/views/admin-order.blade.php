@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+  <head>
+  	<title>Kasir</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+		
+		<div class="wrapper d-flex align-items-stretch">
+			<nav id="sidebar" class="active">
+				<div class="custom-menu">
+					<button type="button" id="sidebarCollapse" class="btn btn-primary">
+	          <i class="fa fa-bars"></i>
+	          <span class="sr-only">Menu</span>
+	        </button>
+        </div>
+				<div class="p-4">
+		  		<h1><a href="index.html" class="logo">Kasir</a></h1>
+				<ul class="list-unstyled components mb-5">
+				<li>
+                    <a href="#akun" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Akun</a>
+                    <ul class="collapse list-unstyled" id="akun">
+                    <li>
+                        <a href="/account">Akun</a>
+                    </li>
+                    <li>
+                        <a href="/account-jenis">Jenis Akun</a>
+                    </li>
+                    <li>
+                        <a href="/account-tipe">Klasifikasi Akun</a>
+                    </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#transaksi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Transaksi</a>
+                    <ul class="collapse list-unstyled" id="transaksi">
+                    <li>
+                        <a href="/admin-order">Transaksi Order</a>
+                    </li>
+                    <li>
+                        <a href="/admin-buy">Transaksi Buy</a>
+                    </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#jurnalUmum" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Jurnal Umum</a>
+                    <ul class="collapse list-unstyled" id="jurnalUmum">
+                    <li>
+                        <a href="/journal">Jurnal Umum Manual</a>
+                    </li>
+                    <li>
+                        <a href="/ledger">Jurnal Umum</a>
+                    </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#bukuBesar" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Buku Besar</a>
+                    <ul class="collapse list-unstyled" id="bukuBesar">
+                    <li>
+                        <a href="/buku-besar">Buku Besar</a>
+                    </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#labarRugi" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Laba Rugi</a>
+                    <ul class="collapse list-unstyled" id="labarRugi">
+                    <li>
+                        <a href="/laporanLabaRugi">Laba Rugi</a>
+                    </li>
+                    </ul>
+                </li>
+                <li>
+					<a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">LOG OUT</a>
+					<ul class="collapse list-unstyled" id="homeSubmenu">
+					<li>
+						<a class="dropdown-item" href="{{ route('logout') }}"
+                                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                        {{ __('Logout') }}
+                                    </a>
+									<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
+					</li>
+					</ul>
+	      </li>
+				</ul>
+	      </li>
+
+	        <div class="footer">
+	        	<p>Copyright &copy;<script>document.write(new Date().getFullYear());</script></p>
+	        </div>
+
+	      </div>
+    	</nav>
+        <div id="content" class="p-4 p-md-5 pt-5">
+        <h2>Data Order</h2>
+    <table class="table table-bordered">
+    <tbody>
+                            <tr class="text-center">
+                                <td>ID</td>
+                                <td>Customer</td>
+                                <td>Menu</td>
+                                <td>Total Menu</td>
+                                <td>Harga</td>
+                                <td>Total Pembayaran</td>
+                                <td>Action</td>
+                            </tr>
+
+                            @foreach ($orders as $key => $o)
+                                <tr>
+                                    <th class="text-center">{{ $key+1 }}</th>
+                                    <td class="text-left">{{ $o->costumer['nama']}}</td>
+                                    <td class="text-left">{{ $o->menu['nama_menu'] }}</td>
+                                    <td class="text-center">{{ $o->total }}</td>
+                                    <td>Rp. {{ $o->menu['harga'] }}</td>
+                                    <td>Rp. {{ $o->total*$o->menu['harga'] }}</td>         
+                                    
+                                    <td class="text-center">
+                                        <a href="/order-delete{{ $o->id }}" class="btn btn-danger btn-sm">Batal</a> 	
+                                    </td>   
+                                </tr>
+                            @endforeach
+
+                           
+
+                        </tbody>
+                </table>
+
+            
+
+        </div>
+    </div>
+    </div>
+		</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/popper.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <script type="text/javascript">
+
+        function functionku(){
+          var list = document.getElementById("list");
+            document.getElementById("harga_menu").value= list.options[list.selectedIndex].getAttribute('harga_menu');
+            document.getElementById("total").value= list.options[list.selectedIndex].getAttribute('menu-total');
+        }
+      function sum(){
+        var text1 = document.getElementById("harga_menu").value;
+        var text2 = document.getElementById("total").value;
+        var hasil = parseInt(text1)*parseInt(text2);
+    
+        if(!isNaN(hasil)){
+          document.getElementById("total_harga").value=hasil;
+        }
+      }
+        </script>
+
+  </body>
+</html>
+      
